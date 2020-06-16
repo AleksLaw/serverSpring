@@ -30,30 +30,24 @@ public class mainControllerRest {
     }
 
     @PostMapping("/edit")
-    public User update(@RequestParam("name") String name,
-                       @RequestParam(value = "password", required = false) String password,
-                       @RequestParam("lastName") String lastName,
-                       @RequestParam("age") String age,
-                       @RequestParam("email") String email,
-                       @RequestParam("role") String userRoles,
-                       @RequestParam("id") String idd) {
-        Long id = Long.parseLong(idd);
-        int ageInt = Integer.parseInt(age);
-        HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
-        User byName = serviceUser.findById(id).get();
-        if (!password.equals("")) {
-            byName.setPassword(password);
+    public User update(@RequestBody User user) {
+//        Long id = Long.parseLong(idd);
+//        int ageInt = Integer.parseInt(age);
+//        HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
+//        User byName = serviceUser.findById(id).get();
+//        if (!password.equals("")) {
+//            byName.setPassword(password);
+//
+//            //  byName.setPassword(passwordEncoder.encode(password));
+//        }
+//        byName.setId(id);
+//        byName.setName(name);
+//        byName.setLastName(lastName);
+//        byName.setAge(ageInt);
+//        byName.setEmail(email);
+//        byName.setUserRoles(roles);
 
-            //  byName.setPassword(passwordEncoder.encode(password));
-        }
-        byName.setId(id);
-        byName.setName(name);
-        byName.setLastName(lastName);
-        byName.setAge(ageInt);
-        byName.setEmail(email);
-        byName.setUserRoles(roles);
-        serviceUser.save(byName);
-        return byName;
+        return serviceUser.save(user);
     }
 
 
@@ -66,6 +60,12 @@ public class mainControllerRest {
 
     @GetMapping("/get/{id}")
     public User getUser(@PathVariable("id") String idd) {
+        Long id = Long.parseLong(idd);
+        User byId = serviceUser.findById(id).get();
+        return byId;
+    }
+    @PostMapping("/findById")
+    public User getUserById(@RequestParam("id") String idd) {
         Long id = Long.parseLong(idd);
         User byId = serviceUser.findById(id).get();
         return byId;
